@@ -22,32 +22,50 @@
   } @ inputs: let
     inherit (flake-utils-plus.lib) defaultSystems eachDefaultSystem;
 
-    # dream2nix = inputs.dream2nix.lib.init {
-    #   systems = defaultSystems;
-    #   config ={
-    #     inherit (import ./nix/ruby.nix {}) discoverers translators fetchers builders;
+    lib = nixpkgs.lib;
 
-    #     projectRoot = ./.;
-    #   };
-    # };
+    # rubySubsystem = nixpkgs.lib.trace "kek" (import ./nix/ruby.nix {});
+    rubySubsystem = import ./nix/ruby.nix {};
 
-    # dream2nixOutputs = (dream2nix.makeFlakeOutputs {
-    #   source = ./.;
-    #   settings = [ ];
-    # });
+    project = dream2nix.lib.init {
+      systems = defaultSystems;
+      config = {
+        inherit (rubySubsystem) discoverers translators fetchers builders;
 
-    lib = {
-      dream2nix.rubySubsystem = import ./nix/ruby.nix {};
+        projectRoot = ./.;
+      };
     };
+
+    dream2nixOutputs = (project.makeFlakeOutputs {
+      source = ./sources;
+      settings = [ ];
+    });
   in
     {
-      inherit lib;
+      lib.dream2nix = {
+        inherit rubySubsystem;
+      };
     } // 
-    # dream2nixOutputs //
+    dream2nixOutputs //
     (eachDefaultSystem (system: 
       let
-        mkShell = nixpkgs.legacyPackages.${system}.mkShell;
-        ruby = nixpkgs.legacyPackages.${system}.ruby_3_1;
+        pkgs = nixpkgs.legacyPackages.${system};
+        gemConfig = pkgs.defaultGemConfig // {
+          nokogiri = attrs: ((pkgs.defaultGemConfig.nokogiri attrs) // {
+            buildInputs = [ pkgs.zlib ];
+          });
+          rugged   = attrs: ((pkgs.defaultGemConfig.rugged attrs) // {
+            buildInputs = [ pkgs.cmake ];
+
+            postInstall = ''
+              # clean up after build
+              rm -rf $GEM_HOME/gems/rugged-${ attrs.version }/vendor;
+              rm -rf $GEM_HOME/gems/rugged-${ attrs.version }/ext;
+            '';
+          });
+        };
+        mkShell = pkgs.mkShell;
+        ruby = pkgs.ruby_3_1;
         devRuby = ruby.withPackages(ps: with ps; [ pry byebug pry-byebug ]);
       in{
         devShells = {

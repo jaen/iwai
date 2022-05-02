@@ -50,12 +50,17 @@
 
         # manage packages in attrset to prevent duplicated evaluation
         packages =
-          lib.mapAttrs
+          (lib.mapAttrs
           (name: versions:
             lib.genAttrs
             versions
             (version: makeOnePackage name version))
-          packageVersions;
+          # Filter out the leaf package because it won't vuild correctly;
+          # TODO: I guess we need to store some metadata about whether to unpack or not
+          #       and choose what to do with building the package, that way we won't have to build
+          #       it separately
+          (lib.filterAttrs (name: _: name != defaultPackageName) packageVersions))
+          // { ${defaultPackageName}.${defaultPackageVersion} = defaultPackage; };
 
         gemFiles = getSource defaultPackageName defaultPackageVersion;
 
@@ -114,11 +119,24 @@
           };
         };
 
+        # TODO: learn how to use overrides for that
+        gemConfig = pkgs.defaultGemConfig // {
+          nokogiri = attrs: ((pkgs.defaultGemConfig.nokogiri attrs) // {
+            buildInputs = [ pkgs.zlib ];
+          });
+          rugged   = attrs: ((pkgs.defaultGemConfig.rugged attrs) // {
+            postInstall = ''
+              # clean up after build
+              rm -rf $GEM_HOME/gems/rugged-${ attrs.version }/vendor;
+              rm -rf $GEM_HOME/gems/rugged-${ attrs.version }/ext;
+            '';
+          });
+        };
+
         # Generates a derivation for a specific package name + version
         makeOnePackage = name: version: let
-          pkg = buildRubyGem rec {
-            inherit version;
-            inherit ruby;
+          gemBuildAttrs = rec {
+            inherit version ruby;
 
             pname = utils.sanitizeDerivationName name;
 
@@ -126,21 +144,28 @@
 
             src = getSource name version;
 
-            buildInputs =
+            propagatedBuildInputs = (lib.traceValFn (x: "Getting build inputs for ${name}@${version}: ${lib.concatStringsSep ", " (map (x: "${x.name}@${x.version}") (getDependencies name version))}") (
               map
               (dep: packages."${dep.name}"."${dep.version}")
-              (getDependencies name version);
+              (getDependencies name version)));
 
             # Implement build phases
           };
+
+          # TODO: use dream2nix's override mechanism
+          effectiveGemBuildAttrs = if gemConfig ? ${name}
+                                   then gemBuildAttrs // (gemConfig.${name} gemBuildAttrs)
+                                   else gemBuildAttrs;
+
+          pkg = buildRubyGem effectiveGemBuildAttrs;
         in
-          pkg
+          pkg;
           # TODO: doesn't work
           # (utils.applyOverridesToPackage packageOverrides pkg name);
       in {
         inherit defaultPackage;
 
-        packages = packages // { ${defaultPackageName}.${defaultPackageVersion} = defaultPackage; };
+        packages = packages;
       };
   };
 }
