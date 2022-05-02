@@ -6,13 +6,15 @@ require "fileutils"
 require "set"
 require "base64"
 
-if ENV["IWAI_DEV"]
+IWAI_DEV = true # ENV["IWAI_DEV"]
+
+if IWAI_DEV
   require "pry"
   require "pry-byebug"
 end
 
 
-WORKDIR = ENV["WORKDIR"] || Dir.pwd
+WORKDIR = Pathname(ENV["WORKDIR"] || Dir.pwd)
 
 INPUT = if ARGV[0] && File.exist?(ARGV[0])
   JSON.parse(File.read(ARGV[0]))
@@ -20,17 +22,18 @@ else
   {}
 end
 
-puts "INPUT: #{ INPUT }" if ENV["IWAI_DEV"]
+puts "INPUT: #{ INPUT }" if IWAI_DEV
 # INPUT: {"invalidationHash"=>"f784eb857205ae3ef62d110414a658e6636008eef944a9d01d83eef00075b61a", "outputFile"=>"dream2nix-packages/ruby/ruby/dream-lock.json", "project"=>{"dreamLockPath"=>"dream2nix-packages/ruby/ruby/dream-lock.json", "name"=>"ruby", "relPath"=>"ruby", "subsystem"=>"ruby", "subsystemInfo"=>{}, "translator"=>"bundler-impure", "translators"=>["bundler-impure"]}, "source"=>"/nix/store/xb3pi4vfwmw0a6sg4112vnnsy48lnfh6-abc"}
 
 SOURCE_PATH = Pathname(INPUT.dig("source") || WORKDIR)
-PROJECT_NAME = INPUT.dig("project", "name") || SOURCE_PATH.basename
-PROJECT_PATH = INPUT.dig("project", "relPath") ? SOURCE_PATH.join(Pathname(INPUT.dig("project", "relPath"))) : SOURCE_PATH
+PROJECT_NAME = INPUT.dig("project", "name") || WORKDIR.basename
+RELATIVE_PROJECT_PATH = Pathname(INPUT.dig("project", "relPath"))
+PROJECT_PATH = INPUT.dig("project", "relPath") ? SOURCE_PATH.join(RELATIVE_PROJECT_PATH) : SOURCE_PATH
 GEMFILE_LOCATION = PROJECT_PATH.join("Gemfile")
 GEMFILE_LOCK_LOCATION = PROJECT_PATH.join("Gemfile.lock")
 OUTPUT_LOCATION = Pathname(INPUT.dig("outputFile") || SOURCE_PATH.join("dream-lock.json"))
 
-if ENV["IWAI_DEV"]
+if IWAI_DEV
   puts "WORKDIR = #{ WORKDIR }"
   puts "SOURCE_PATH = #{ SOURCE_PATH }"
   puts "PROJECT_NAME = #{ PROJECT_NAME }"
@@ -67,7 +70,7 @@ generic_data = {
   "packages" => {
     PROJECT_NAME => "0.0.0"
   },
-  "location" => PROJECT_PATH.to_s,
+  "location" => RELATIVE_PROJECT_PATH.to_s,
   # TODO: what is this?
   "sourcesAggregatedHash" => nil,
 }

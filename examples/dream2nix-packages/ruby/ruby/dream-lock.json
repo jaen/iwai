@@ -1,8 +1,8 @@
 {
   "_generic": {
     "defaultPackage": "ruby",
-    "invalidationHash": "124c19a962f27135743fbce72659805670f78f36cabdf238df4a3ad6baeb779f",
-    "location": "/nix/store/7y0g2ag8b9jnfnwckrak6v20djq3iyrr-mgxbfc2723dp7rsj5gnkm1r4cizdc6fs-source/example/ruby",
+    "invalidationHash": "f784eb857205ae3ef62d110414a658e6636008eef944a9d01d83eef00075b61a",
+    "location": "ruby",
     "packages": {
       "ruby": "0.0.0"
     },

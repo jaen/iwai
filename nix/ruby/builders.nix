@@ -134,7 +134,7 @@
             # Implement build phases
           };
         in
-          pkg;
+          pkg
           # TODO: doesn't work
           # (utils.applyOverridesToPackage packageOverrides pkg name);
       in {
