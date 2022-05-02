@@ -13,11 +13,14 @@
             jq,
             nix,
             ruby_3_1,
+            git,
             writeScriptBin,
             ...
           }: let
+              ruby = ruby_3_1;
+              rubyWithGems = (ruby.withPackages (ps: with ps; [ pry byebug pry-byebug ])).wrappedRuby;
             in
-              utils.writePureShellScript [ bash coreutils curl ruby_3_1 nix ] ''
+              utils.writePureShellScript [ bash coreutils curl rubyWithGems nix git ] ''
                 # according to the spec, the translator reads the input from a json file
                 inputFile=$1
 

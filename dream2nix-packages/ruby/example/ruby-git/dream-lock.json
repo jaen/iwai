@@ -1,0 +1,174 @@
+{
+  "_generic": {
+    "defaultPackage": "ruby-git",
+    "invalidationHash": "3dac35ec14230d3a6959d9ff31065defc0d5f8a2ea4889ffa721e1cf54d7d426",
+    "location": "/nix/store/7y0g2ag8b9jnfnwckrak6v20djq3iyrr-mgxbfc2723dp7rsj5gnkm1r4cizdc6fs-source/example/ruby-git",
+    "packages": {
+      "ruby-git": "0.0.0"
+    },
+    "sourcesAggregatedHash": null,
+    "subsystem": "ruby",
+    "translatorArgs": ""
+  },
+  "_subsystem": {
+    "bundleVersion": "2.3.9",
+    "platforms": [
+      "x86_64-linux"
+    ],
+    "rubyVersion": ""
+  },
+  "depdendencies": {
+    "concurrent-ruby": [],
+    "dry-configurable": [
+      [
+        "concurrent-ruby",
+        "1.1.10"
+      ],
+      [
+        "dry-core",
+        "0.7.1"
+      ]
+    ],
+    "dry-container": [
+      [
+        "concurrent-ruby",
+        "1.1.10"
+      ],
+      [
+        "dry-configurable",
+        "0.15.0"
+      ]
+    ],
+    "dry-core": [
+      [
+        "concurrent-ruby",
+        "1.1.10"
+      ]
+    ],
+    "dry-inflector": [],
+    "dry-initializer": [],
+    "dry-logic": [
+      [
+        "concurrent-ruby",
+        "1.1.10"
+      ],
+      [
+        "dry-core",
+        "0.7.1"
+      ]
+    ],
+    "dry-schema": [
+      [
+        "concurrent-ruby",
+        "1.1.10"
+      ],
+      [
+        "dry-configurable",
+        "0.15.0"
+      ],
+      [
+        "dry-core",
+        "0.7.1"
+      ],
+      [
+        "dry-initializer",
+        "3.1.1"
+      ],
+      [
+        "dry-logic",
+        "1.2.0"
+      ],
+      [
+        "dry-types",
+        "1.5.1"
+      ]
+    ],
+    "dry-types": [
+      [
+        "concurrent-ruby",
+        "1.1.10"
+      ],
+      [
+        "dry-container",
+        "0.9.0"
+      ],
+      [
+        "dry-core",
+        "0.7.1"
+      ],
+      [
+        "dry-inflector",
+        "0.2.1"
+      ],
+      [
+        "dry-logic",
+        "1.2.0"
+      ]
+    ]
+  },
+  "sources": {
+    "concurrent-ruby": {
+      "1.1.10": {
+        "hash": "sha256-JEyxyg2R7CwVyiIJUHw5+xYzNplEKOFvvT9GXIe9jmg=",
+        "type": "rubygems",
+        "url": "https://rubygems.org/gems/concurrent-ruby-1.1.10.gem"
+      }
+    },
+    "dry-configurable": {
+      "0.15.0": {
+        "hash": "sha256-YiLywaEg9XQ/me/7DXnnDuBElSVdaG6kgx3WVZvRoBw=",
+        "type": "rubygems",
+        "url": "https://rubygems.org/gems/dry-configurable-0.15.0.gem"
+      }
+    },
+    "dry-container": {
+      "0.9.0": {
+        "hash": "sha256-x8ZjQz6h0FxZS/7TYdHzs7LvsZ4rzo9sSUg91aB/PBU=",
+        "type": "rubygems",
+        "url": "https://rubygems.org/gems/dry-container-0.9.0.gem"
+      }
+    },
+    "dry-core": {
+      "0.7.1": {
+        "hash": "sha256-qI+dGelLmxBtOSg4FKQj+TZ+8Fq7WZ6p0UC8zrbxwTE=",
+        "type": "rubygems",
+        "url": "https://rubygems.org/gems/dry-core-0.7.1.gem"
+      }
+    },
+    "dry-inflector": {
+      "0.2.1": {
+        "hash": "sha256-tFiSH8KyHUtl39dmvKjCMK0dyMY6fZDWeGiTCA/AH1Y=",
+        "type": "rubygems",
+        "url": "https://rubygems.org/gems/dry-inflector-0.2.1.gem"
+      }
+    },
+    "dry-initializer": {
+      "3.1.1": {
+        "hash": "sha256-TSZ96jZ8yr5JiyWcYrkJuZ1XfW21R9lRBWGZlANUbew=",
+        "type": "rubygems",
+        "url": "https://rubygems.org/gems/dry-initializer-3.1.1.gem"
+      }
+    },
+    "dry-logic": {
+      "1.2.0": {
+        "hash": "sha256-lXIkb5UobFLjEl8coDh1wv1qWrPi5veDTrim9FSWse4=",
+        "type": "rubygems",
+        "url": "https://rubygems.org/gems/dry-logic-1.2.0.gem"
+      }
+    },
+    "dry-schema": {
+      "1.9.1": {
+        "rev": "f0b467917166af23293980f02fd21546f380353b",
+        "type": "git",
+        "url": "https://github.com/dry-rb/dry-schema.git"
+      }
+    },
+    "dry-types": {
+      "1.5.1": {
+        "hash": "sha256-bdMAnR+RpEyA8OAZzFNyxnJhCEiRPywQyrR/atLQYL8=",
+        "type": "rubygems",
+        "url": "https://rubygems.org/gems/dry-types-1.5.1.gem"
+      }
+    }
+  }
+}

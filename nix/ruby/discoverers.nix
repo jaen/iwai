@@ -17,7 +17,7 @@
             ? files."Gemfile"
             && tree ? files."Gemfile.lock";
         in
-          if rubyProject
+          if rubyProject #  lib.traceIf rubyProject "Discovered Ruby project at: ${ tree.relPath }" rubyProject
           then
             [
               (dlib.construct.discoveredProject {

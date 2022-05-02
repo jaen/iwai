@@ -7,7 +7,7 @@
     ### dev dependencies
     alejandra = { url = "github:kamadorueda/alejandra"; inputs.nixpkgs.follows = "nixpkgs"; };
 
-    dream2nix = { url = "github:jaen/dream2nix/extend-subsystems"; inputs.nixpkgs.follows = "nixpkgs"; };
+    dream2nix = { url = "github:jaen/dream2nix/extend-subsystems-wip"; inputs.nixpkgs.follows = "nixpkgs"; };
 
     flake-utils-plus = { url = "github:gytis-ivaskevicius/flake-utils-plus"; inputs.nixpkgs.follows = "nixpkgs"; };
   };
@@ -27,19 +27,40 @@
       config ={
         inherit (import ./nix/ruby.nix {}) discoverers translators fetchers builders;
 
-        projectRoot = ./example;
+        projectRoot = ./.;
       };
     };
 
     dream2nixOutputs = (dream2nix.makeFlakeOutputs {
-      source = ./example;
+      source = ./.;
       settings = [ ];
     });
   in
     dream2nixOutputs //
-    (eachDefaultSystem (system: {
-      devShells.default = nixpkgs.legacyPackages.${system}.mkShell {
-        buildInputs = [ dream2nixOutputs.packages.${system}.ruby.wrappedRuby ];
+    (eachDefaultSystem (system: 
+      let
+        mkShell = nixpkgs.legacyPackages.${system}.mkShell;
+        ruby = nixpkgs.legacyPackages.${system}.ruby_3_1;
+        devRuby = ruby.withPackages(ps: with ps; [ pry byebug pry-byebug ]);
+      in{
+      devShells = {
+        default = mkShell {
+          buildInputs = [
+            devRuby.wrappedRuby
+          ];
+        };
+
+        ruby = mkShell {
+          buildInputs = [
+            dream2nixOutputs.packages.${system}.ruby.wrappedRuby
+          ];
+        };
+
+        ruby-git = mkShell {
+          buildInputs = [
+            dream2nixOutputs.packages.${system}.ruby-git.wrappedRuby
+          ];
+        };
       };
     }));
 }
