@@ -59,8 +59,8 @@
           # TODO: I guess we need to store some metadata about whether to unpack or not
           #       and choose what to do with building the package, that way we won't have to build
           #       it separately
-          (lib.filterAttrs (name: _: name != defaultPackageName) packageVersions))
-          // { ${defaultPackageName}.${defaultPackageVersion} = defaultPackage; };
+          (lib.filterAttrs (name: _: name != defaultPackageName) packageVersions));
+          # // { ${defaultPackageName}.${defaultPackageVersion} = defaultPackage; };
 
         gemFiles = getSource defaultPackageName defaultPackageVersion;
 
@@ -142,6 +142,8 @@
 
             gemName = name;
 
+            # dontUnpack = name == "iwai";
+
             src = getSource name version;
 
             propagatedBuildInputs = (lib.traceValFn (x: "Getting build inputs for ${name}@${version}: ${lib.concatStringsSep ", " (map (x: "${x.name}@${x.version}") (getDependencies name version))}") (
@@ -165,7 +167,7 @@
       in {
         inherit defaultPackage;
 
-        packages = packages;
+        packages = packages // { ${defaultPackageName}.${defaultPackageVersion} = defaultPackage; };
       };
   };
 }
