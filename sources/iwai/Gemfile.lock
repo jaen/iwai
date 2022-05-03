@@ -1,3 +1,9 @@
+GIT
+  remote: https://github.com/piotrmurach/tty-runner
+  revision: 1bf4287915fd4f3c6d02a2ee5965f5caca30d06d
+  specs:
+    tty-runner (0.1.0)
+
 PATH
   remote: .
   specs:
@@ -47,6 +53,7 @@ PATH
       tty-platform
       tty-progressbar
       tty-prompt
+      tty-runner
       tty-screen
       tty-spinner
       tty-table
@@ -239,6 +246,7 @@ PLATFORMS
 
 DEPENDENCIES
   iwai!
+  tty-runner!
 
 BUNDLED WITH
    2.3.7

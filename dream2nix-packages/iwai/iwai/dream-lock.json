@@ -16,7 +16,243 @@
     "platforms": [
       "x86_64-linux"
     ],
-    "rubyVersion": ""
+    "rubyVersion": "",
+    "sourceTypes": {
+      "addressable": {
+        "2.8.0": "rubygems"
+      },
+      "bundler": {
+        "2.3.7": "rubygems"
+      },
+      "concurrent-ruby": {
+        "1.1.10": "rubygems"
+      },
+      "concurrent-ruby-edge": {
+        "0.6.0": "rubygems"
+      },
+      "diff-lcs": {
+        "1.5.0": "rubygems"
+      },
+      "docile": {
+        "1.4.0": "rubygems"
+      },
+      "domain_name": {
+        "0.5.20190701": "rubygems"
+      },
+      "dry-auto_inject": {
+        "0.9.0": "rubygems"
+      },
+      "dry-cli": {
+        "0.7.0": "rubygems"
+      },
+      "dry-configurable": {
+        "0.15.0": "rubygems"
+      },
+      "dry-container": {
+        "0.9.0": "rubygems"
+      },
+      "dry-core": {
+        "0.7.1": "rubygems"
+      },
+      "dry-effects": {
+        "0.2.0": "rubygems"
+      },
+      "dry-equalizer": {
+        "0.3.0": "rubygems"
+      },
+      "dry-events": {
+        "0.3.0": "rubygems"
+      },
+      "dry-inflector": {
+        "0.2.1": "rubygems"
+      },
+      "dry-initializer": {
+        "3.1.1": "rubygems"
+      },
+      "dry-logic": {
+        "1.2.0": "rubygems"
+      },
+      "dry-matcher": {
+        "0.9.0": "rubygems"
+      },
+      "dry-monads": {
+        "1.4.0": "rubygems"
+      },
+      "dry-schema": {
+        "1.9.1": "rubygems"
+      },
+      "dry-struct": {
+        "1.4.0": "rubygems"
+      },
+      "dry-system": {
+        "0.23.0": "rubygems"
+      },
+      "dry-transaction": {
+        "0.13.3": "rubygems"
+      },
+      "dry-types": {
+        "1.5.1": "rubygems"
+      },
+      "dry-validation": {
+        "1.8.0": "rubygems"
+      },
+      "ffi": {
+        "1.15.5": "rubygems"
+      },
+      "ffi-compiler": {
+        "1.0.1": "rubygems"
+      },
+      "git": {
+        "1.11.0": "rubygems"
+      },
+      "http": {
+        "5.0.4": "rubygems"
+      },
+      "http-cookie": {
+        "1.0.4": "rubygems"
+      },
+      "http-form_data": {
+        "2.3.0": "rubygems"
+      },
+      "ice_nine": {
+        "0.11.2": "rubygems"
+      },
+      "iwai": {
+        "0.1.0": "gemspec"
+      },
+      "kramdown": {
+        "2.4.0": "rubygems"
+      },
+      "llhttp-ffi": {
+        "0.4.0": "rubygems"
+      },
+      "minitar": {
+        "0.9": "rubygems"
+      },
+      "pastel": {
+        "0.8.0": "rubygems"
+      },
+      "psych": {
+        "4.0.3": "rubygems"
+      },
+      "public_suffix": {
+        "4.0.7": "rubygems"
+      },
+      "rainbow": {
+        "3.1.1": "rubygems"
+      },
+      "rake": {
+        "13.0.6": "rubygems"
+      },
+      "rchardet": {
+        "1.8.0": "rubygems"
+      },
+      "rexml": {
+        "3.2.5": "rubygems"
+      },
+      "rouge": {
+        "3.28.0": "rubygems"
+      },
+      "rsync": {
+        "1.0.9": "rubygems"
+      },
+      "semantic_logger": {
+        "4.10.0": "rubygems"
+      },
+      "stringio": {
+        "3.0.1": "rubygems"
+      },
+      "strings": {
+        "0.2.1": "rubygems"
+      },
+      "strings-ansi": {
+        "0.2.0": "rubygems"
+      },
+      "tty-box": {
+        "0.7.0": "rubygems"
+      },
+      "tty-color": {
+        "0.6.0": "rubygems"
+      },
+      "tty-command": {
+        "0.10.1": "rubygems"
+      },
+      "tty-config": {
+        "0.5.1": "rubygems"
+      },
+      "tty-cursor": {
+        "0.7.1": "rubygems"
+      },
+      "tty-editor": {
+        "0.7.0": "rubygems"
+      },
+      "tty-file": {
+        "0.10.0": "rubygems"
+      },
+      "tty-font": {
+        "0.5.0": "rubygems"
+      },
+      "tty-logger": {
+        "0.6.0": "rubygems"
+      },
+      "tty-markdown": {
+        "0.7.0": "rubygems"
+      },
+      "tty-pager": {
+        "0.14.0": "rubygems"
+      },
+      "tty-pie": {
+        "0.4.0": "rubygems"
+      },
+      "tty-platform": {
+        "0.3.0": "rubygems"
+      },
+      "tty-progressbar": {
+        "0.18.2": "rubygems"
+      },
+      "tty-prompt": {
+        "0.23.1": "rubygems"
+      },
+      "tty-reader": {
+        "0.9.0": "rubygems"
+      },
+      "tty-runner": {
+        "0.1.0": "git"
+      },
+      "tty-screen": {
+        "0.8.1": "rubygems"
+      },
+      "tty-spinner": {
+        "0.9.3": "rubygems"
+      },
+      "tty-table": {
+        "0.12.0": "rubygems"
+      },
+      "tty-tree": {
+        "0.4.0": "rubygems"
+      },
+      "tty-which": {
+        "0.5.0": "rubygems"
+      },
+      "unf": {
+        "0.1.4": "rubygems"
+      },
+      "unf_ext": {
+        "0.0.8.1": "rubygems"
+      },
+      "unicode-display_width": {
+        "2.1.0": "rubygems"
+      },
+      "unicode_utils": {
+        "1.4.0": "rubygems"
+      },
+      "wisper": {
+        "2.0.1": "rubygems"
+      },
+      "zeitwerk": {
+        "2.5.4": "rubygems"
+      }
+    }
   },
   "dependencies": {
     "addressable": {
@@ -251,7 +487,8 @@
         [ "tty-spinner", "0.9.3" ],
         [ "tty-table", "0.12.0" ],
         [ "tty-tree", "0.4.0" ],
-        [ "tty-which", "0.5.0" ]
+        [ "tty-which", "0.5.0" ],
+        [ "tty-runner", "0.1.0" ]
       ]
     },
     "kramdown": {
@@ -403,6 +640,9 @@
         [ "tty-screen", "0.8.1" ],
         [ "wisper", "2.0.1" ]
       ]
+    },
+    "tty-runner": {
+      "0.1.0": []
     },
     "tty-screen": {
       "0.8.1": []
@@ -680,7 +920,7 @@
     },
     "iwai": {
       "0.1.0": {
-        "path": "/nix/store/c824ybm7a9f105i4xrhllmk2yzkx5rx3-sources/iwai",
+        "path": "/nix/store/bfax56g0f6sdiararh31a9vvarbvrbbn-sources/iwai",
         "type": "path"
       }
     },
@@ -906,6 +1146,13 @@
         "hash": "sha256-xilyyYXAsVZvDlZ0O2p4gvl509wy/0ke1JCgdviZwrE=",
         "type": "rubygems",
         "url": "https://rubygems.org/gems/tty-reader-0.9.0.gem"
+      }
+    },
+    "tty-runner": {
+      "0.1.0": {
+        "rev": "1bf4287915fd4f3c6d02a2ee5965f5caca30d06d",
+        "type": "git",
+        "url": "https://github.com/piotrmurach/tty-runner"
       }
     },
     "tty-screen": {

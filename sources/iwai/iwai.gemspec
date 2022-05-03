@@ -1,6 +1,5 @@
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-
 require "iwai/version"
 
 Gem::Specification.new do |spec|
@@ -87,5 +86,5 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "tty-table"
   spec.add_runtime_dependency "tty-tree"
   spec.add_runtime_dependency "tty-which"
-#   spec.add_runtime_dependency "tty-runner"
+  spec.add_runtime_dependency "tty-runner"
 end

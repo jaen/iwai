@@ -100,11 +100,12 @@ def source_type(source)
   end
 end
 
-subsystem_data = {
+@subsystem_data = {
   "rubyVersion" => ruby_version.to_s,
   "bundlerVersion" => bundler_version.to_s,
   "platforms" => @nix_platforms,
   "gemspecPath" => GEMSPEC_LOCATION,
+  "sourceTypes" => Hash.new { |h, k| h[k] = Hash.new { |h, k| h[k] = {} } },
 }
 
 @resolved_bundler = nil
@@ -219,6 +220,8 @@ def to_source_data(spec)
 
   print "Resolving #{ name }... "
 
+  @subsystem_data["sourceTypes"][name][version] = type
+
   source_data = case type
     when :rubygems
       remote = source.remotes.first
@@ -284,7 +287,7 @@ gem_sources_data = DEFINITION.specs
 
 output = {
   "_generic" => generic_data,
-  "_subsystem" => subsystem_data,
+  "_subsystem" => @subsystem_data,
   "dependencies" => dependencies_data,
   "sources" => gem_sources_data,
 }

@@ -2,6 +2,6 @@ source "https://rubygems.org"
 
 git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 
-# gem "tty-runner", :github => "piotrmurach/tty-runner"
+gem "tty-runner", :github => "piotrmurach/tty-runner"
 
 gemspec

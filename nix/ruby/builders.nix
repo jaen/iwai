@@ -59,7 +59,8 @@
           # TODO: I guess we need to store some metadata about whether to unpack or not
           #       and choose what to do with building the package, that way we won't have to build
           #       it separately
-          (lib.filterAttrs (name: _: name != defaultPackageName) packageVersions));
+          packageVersions);
+          # (lib.filterAttrs (name: _: name != defaultPackageName) packageVersions));
           # // { ${defaultPackageName}.${defaultPackageVersion} = defaultPackage; };
 
         gemFiles = getSource defaultPackageName defaultPackageVersion;
@@ -135,31 +136,85 @@
 
         # Generates a derivation for a specific package name + version
         makeOnePackage = name: version: let
+          sourceType = lib.traceValFn (x: "${name} is of type ${x}") (lib.attrByPath ["sourceTypes" name version] null subsystemAttrs);
+
           gemBuildAttrs = rec {
             inherit version ruby;
+            
+            type = "gem";
 
             pname = utils.sanitizeDerivationName name;
 
             gemName = name;
 
-            # dontUnpack = name == "iwai";
+            # type = if sourceType == "rubygems" then "gem" else "git";
 
-            src = getSource name version;
+            # dontUnpack = if sourceType == "gemspec" then true else "";
+            # dontBuild = if sourceType != "rubygems" then true else "";
 
-            propagatedBuildInputs = (lib.traceValFn (x: "Getting build inputs for ${name}@${version}: ${lib.concatStringsSep ", " (map (x: "${x.name}@${x.version}") (getDependencies name version))}") (
+            src = lib.traceValFn (x: "${builtins.toJSON x}") (getSource name version);
+
+            propagatedBuildInputs =
+              # (lib.traceValFn (x: "Getting build inputs for ${name}@${version}: ${lib.concatStringsSep ", " (map (x: "${x.name}@${x.version}") (getDependencies name version))}") (
               map
               (dep: packages."${dep.name}"."${dep.version}")
-              (getDependencies name version)));
-
-            # Implement build phases
+              (getDependencies name version);
+              # ));
           };
 
-          # TODO: use dream2nix's override mechanism
-          effectiveGemBuildAttrs = if gemConfig ? ${name}
-                                   then gemBuildAttrs // (gemConfig.${name} gemBuildAttrs)
-                                   else gemBuildAttrs;
+          git = pkgs.git;
 
-          pkg = buildRubyGem effectiveGemBuildAttrs;
+          extraAttrs = if sourceType == "rubygems" then
+              {}
+            else if sourceType == "git" then
+              {
+                dontUnpack = true;
+                dontBuild = false;
+                preBuild =  ''
+                  export gempkg=$src
+                  echo "${name}: $gempkg"
+                  cp -r $src/* .
+                  cp $src/*.gemspec original.gemspec
+                  gemspec=$(readlink -f .)/original.gemspec
+                  ls -lah
+                  ${git}/bin/git init
+                  # remove variations to improve the likelihood of a bit-reproducible output
+                  rm -rf .git/logs/ .git/hooks/ .git/index .git/FETCH_HEAD .git/ORIG_HEAD .git/refs/remotes/origin/HEAD .git/config
+                  # support `git ls-files`
+                  ${git}/bin/git add .
+                '';
+              }
+            else if sourceType == "gemspec" then
+              {
+                dontUnpack = true;
+                dontBuild = false;
+                preBuild =  ''
+                  set -x
+
+                  export gempkg=$src
+                  echo "${name}: $gempkg"
+                  ls -lah $gempkg
+                  ls -lah $gempkg/..
+                  cp -r $src/* .
+                  cp $src/*.gemspec original.gemspec
+                  gemspec=$(readlink -f .)/original.gemspec
+                  ls -lah
+                  ${git}/bin/git init
+                  # remove variations to improve the likelihood of a bit-reproducible output
+                  rm -rf .git/logs/ .git/hooks/ .git/index .git/FETCH_HEAD .git/ORIG_HEAD .git/refs/remotes/origin/HEAD .git/config
+                  # support `git ls-files`
+                  ${git}/bin/git add .
+                '';
+              }
+            else
+              throw "Unknown source type ${ sourceType } for gem ${ name }"; # TODO: check whether there's gemspec or not?
+
+          # TODO: use dream2nix's override mechanism
+          effectiveGemBuildAttrs = (if gemConfig ? ${name}
+                                   then gemBuildAttrs // (gemConfig.${name} gemBuildAttrs)
+                                   else gemBuildAttrs)  // extraAttrs;
+
+          pkg = buildRubyGem (lib.traceValFn (x: "Building gem ${name} with attrs: ${builtins.toJSON x}") effectiveGemBuildAttrs);
         in
           pkg;
           # TODO: doesn't work
