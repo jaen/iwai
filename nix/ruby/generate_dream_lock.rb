@@ -8,7 +8,7 @@ require "base64"
 
 IWAI_DEV = true # ENV["IWAI_DEV"]
 
-if IWAI_DEV
+if false # IWAI_DEV
   require "pry"
   require "pry-byebug"
 end
