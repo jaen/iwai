@@ -257,7 +257,11 @@ def to_source_data(spec)
         "url" => uri,
       }
     when :gemspec
-      path = source.expanded_original_path
+      # we need some way to resolve paths relative to the project root
+      puts "path = #{ source.expanded_original_path }"
+      puts "PROJECT_PATH = #{ PROJECT_PATH }"
+      path = source.expanded_original_path.relative_path_from(SOURCE_PATH)
+      # path = source.expanded_original_path
 
       puts "resolved to #{ path } @ #{ version }"
 

@@ -920,7 +920,7 @@
     },
     "iwai": {
       "0.1.0": {
-        "path": "/nix/store/bfax56g0f6sdiararh31a9vvarbvrbbn-sources/iwai",
+        "path": "iwai",
         "type": "path"
       }
     },

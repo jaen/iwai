@@ -26,7 +26,7 @@ Gem::Specification.new do |spec|
   end
 
   # Specify which files should be added to the gem when it is released.
-  spec.files         = Dir[ "lib/**/*.rb" ] + [ "LICENSE.txt", "README.md", "CHANGELOG.md" ]
+  spec.files         = Dir[ "lib/**/*.rb" ] # + [ "LICENSE.txt", "README.md", "CHANGELOG.md" ]
   spec.bindir        = "exe"
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = [ "lib" ]

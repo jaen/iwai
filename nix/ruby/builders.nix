@@ -46,7 +46,7 @@
         bundler = pkgs.bundler;
 
         # # the main package
-        # defaultPackage = packages."${defaultPackageName}"."${defaultPackageVersion}";
+        defaultPackage = packages."${defaultPackageName}"."${defaultPackageVersion}";
 
         # manage packages in attrset to prevent duplicated evaluation
         packages =
@@ -55,7 +55,7 @@
             lib.genAttrs
             versions
             (version: makeOnePackage name version))
-          # Filter out the leaf package because it won't vuild correctly;
+          # Filter out the leaf package because it won't build correctly;
           # TODO: I guess we need to store some metadata about whether to unpack or not
           #       and choose what to do with building the package, that way we won't have to build
           #       it separately
@@ -80,45 +80,45 @@
 
         envPaths = lib.concatMap lib.attrValues (lib.attrValues gems);
 
-        defaultPackage = buildEnv {
-          name = "${ defaultPackageName }-${ defaultPackageVersion }-gems";
+        # defaultPackage = buildEnv {
+        #   name = "${ defaultPackageName }-${ defaultPackageVersion }-gems";
 
-          paths = envPaths;
-          pathsToLink = [ "/lib" ];
+        #   paths = envPaths;
+        #   pathsToLink = [ "/lib" ];
 
-          passthru = rec {
-            inherit ruby bundler gems confFiles envPaths;
+        #   passthru = rec {
+        #     inherit ruby bundler gems confFiles envPaths;
 
-            wrappedRuby = stdenv.mkDerivation {
-              name = "wrapped-ruby-${ defaultPackageName }-${ defaultPackageVersion }-gems";
+        #     wrappedRuby = stdenv.mkDerivation {
+        #       name = "wrapped-ruby-${ defaultPackageName }-${ defaultPackageVersion }-gems";
 
-              nativeBuildInputs = [ makeBinaryWrapper ];
+        #       nativeBuildInputs = [ makeBinaryWrapper ];
 
-              dontUnpack = true;
+        #       dontUnpack = true;
 
-              buildPhase = ''
-                mkdir -p $out/bin
-                for i in ${ruby}/bin/*; do
-                  makeWrapper "$i" $out/bin/$(basename "$i") \
-                    --set BUNDLE_GEMFILE ${confFiles}/Gemfile \
-                    --unset BUNDLE_PATH \
-                    --set BUNDLE_FROZEN 1 \
-                    --set GEM_HOME ${defaultPackage}/${ruby.gemPath} \
-                    --set GEM_PATH ${defaultPackage}/${ruby.gemPath}
-                done
-              '';
+        #       buildPhase = ''
+        #         mkdir -p $out/bin
+        #         for i in ${ruby}/bin/*; do
+        #           makeWrapper "$i" $out/bin/$(basename "$i") \
+        #             --set BUNDLE_GEMFILE ${confFiles}/Gemfile \
+        #             --unset BUNDLE_PATH \
+        #             --set BUNDLE_FROZEN 1 \
+        #             --set GEM_HOME ${defaultPackage}/${ruby.gemPath} \
+        #             --set GEM_PATH ${defaultPackage}/${ruby.gemPath}
+        #         done
+        #       '';
 
-              dontInstall = true;
+        #       dontInstall = true;
 
-              doCheck = true;
-              checkPhase = ''
-                $out/bin/ruby --help > /dev/null
-              '';
+        #       doCheck = true;
+        #       checkPhase = ''
+        #         $out/bin/ruby --help > /dev/null
+        #       '';
 
-              inherit (ruby) meta;
-            };
-          };
-        };
+        #       inherit (ruby) meta;
+        #     };
+        #   };
+        # };
 
         # TODO: learn how to use overrides for that
         gemConfig = pkgs.defaultGemConfig // {
@@ -149,7 +149,7 @@
 
             # type = if sourceType == "rubygems" then "gem" else "git";
 
-            # dontUnpack = if sourceType == "gemspec" then true else "";
+            dontUnpack = if sourceType == "gemspec" then true else "";
             # dontBuild = if sourceType != "rubygems" then true else "";
 
             src = lib.traceValFn (x: "${builtins.toJSON x}") (getSource name version);
@@ -194,8 +194,9 @@
                   export gempkg=$src
                   echo "${name}: $gempkg"
                   ls -lah $gempkg
-                  ls -lah $gempkg/..
+                  # ls -lah $gempkg/..
                   cp -r $src/* .
+                  echo "cp $src/*.gemspec original.gemspec"
                   cp $src/*.gemspec original.gemspec
                   gemspec=$(readlink -f .)/original.gemspec
                   ls -lah
@@ -222,7 +223,7 @@
       in {
         inherit defaultPackage;
 
-        packages = packages // { ${defaultPackageName}.${defaultPackageVersion} = defaultPackage; };
+        packages = packages; # // { ${defaultPackageName}.${defaultPackageVersion} = defaultPackage; };
       };
   };
 }
