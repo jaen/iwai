@@ -7,7 +7,7 @@
     ### dev dependencies
     alejandra = { url = "github:kamadorueda/alejandra"; inputs.nixpkgs.follows = "nixpkgs"; };
 
-    dream2nix = { url = "github:jaen/dream2nix/extend-subsystems-wip"; inputs.nixpkgs.follows = "nixpkgs"; };
+    dream2nix = { url = "github:yusdacra/dream2nix/refactor/organize-code"; inputs.nixpkgs.follows = "nixpkgs"; };
 
     flake-utils-plus = { url = "github:gytis-ivaskevicius/flake-utils-plus"; inputs.nixpkgs.follows = "nixpkgs"; };
   };
@@ -30,7 +30,15 @@
     project = dream2nix.lib.init {
       systems = defaultSystems;
       config = {
-        inherit (rubySubsystem) discoverers translators fetchers builders;
+        extra = {
+            subsystems = {
+              # ruby = rubySubsystem;
+              ruby.discoverers.ruby = rubySubsystem.discoverers.ruby;
+              ruby.translators.bundler-impure = rubySubsystem.translators.bundler-impure;
+              ruby.builders.nixpkgs = rubySubsystem.builders.nixpkgs;
+            };
+            fetchers.rubygems = rubySubsystem.fetchers.rubygems;
+          };
 
         projectRoot = ./.;
       };
@@ -41,39 +49,40 @@
       settings = [ ];
     });
   in
-    {
-      lib.dream2nix = {
-        inherit rubySubsystem;
-      };
-    } // 
-    dream2nixOutputs //
-    (eachDefaultSystem (system: 
-      let
-        pkgs = nixpkgs.legacyPackages.${system};
-        gemConfig = pkgs.defaultGemConfig // {
-          nokogiri = attrs: ((pkgs.defaultGemConfig.nokogiri attrs) // {
-            buildInputs = [ pkgs.zlib ];
-          });
-          rugged   = attrs: ((pkgs.defaultGemConfig.rugged attrs) // {
-            buildInputs = [ pkgs.cmake ];
+    dream2nixOutputs;
+    # {
+    #   lib.dream2nix = {
+    #     inherit rubySubsystem;
+    #   };
+    # } // 
+#     dream2nixOutputs //
+#     (eachDefaultSystem (system: 
+#       let
+#         pkgs = nixpkgs.legacyPackages.${system};
+#         gemConfig = pkgs.defaultGemConfig // {
+#           nokogiri = attrs: ((pkgs.defaultGemConfig.nokogiri attrs) // {
+#             buildInputs = [ pkgs.zlib ];
+#           });
+#           rugged   = attrs: ((pkgs.defaultGemConfig.rugged attrs) // {
+#             buildInputs = [ pkgs.cmake ];
 
-            postInstall = ''
-              # clean up after build
-              rm -rf $GEM_HOME/gems/rugged-${ attrs.version }/vendor;
-              rm -rf $GEM_HOME/gems/rugged-${ attrs.version }/ext;
-            '';
-          });
-        };
-        mkShell = pkgs.mkShell;
-        ruby = pkgs.ruby_3_1;
-        devRuby = ruby.withPackages(ps: with ps; [ pry byebug pry-byebug ]);
-      in{
-        devShells = {
-          default = mkShell {
-            buildInputs = [
-              devRuby.wrappedRuby
-            ];
-          };
-      };
-    }));
+#             postInstall = ''
+#               # clean up after build
+#               rm -rf $GEM_HOME/gems/rugged-${ attrs.version }/vendor;
+#               rm -rf $GEM_HOME/gems/rugged-${ attrs.version }/ext;
+#             '';
+#           });
+#         };
+#         mkShell = pkgs.mkShell;
+#         ruby = pkgs.ruby_3_1;
+#         devRuby = ruby.withPackages(ps: with ps; [ pry byebug pry-byebug ]);
+#       in {
+#         devShells = {
+#           default = mkShell {
+#             buildInputs = [
+#               devRuby.wrappedRuby
+#             ];
+#           };
+#       };
+#     }));
 }

@@ -1,5 +1,5 @@
 {
-  ruby = { dlib, lib, subsystem, }:
+  ruby = { dlib, lib, subsystem, ... }:
     let
       l = lib // builtins;
 
@@ -30,9 +30,9 @@
               (map (x: if l.isList x then x else [ x ])
                 (l.split "" str))));
 
-      discover = args@{ tree }:
+      discover = args: #@{ tree }:
         let
-          # tree = l.trace "Discovering at $SOURCES/${ args.tree.relPath }" args.tree;
+          tree = l.trace "Discovering at $SOURCES/${ args.tree.relPath }" args.tree;
           
           subdirProjects =
             l.flatten
@@ -87,7 +87,8 @@
                               [ (if hasGemfile then "gemfile" else null)
                                 (if hasGemspec then "gemspec" else null) ];
         in
-          if rubyProject # lib.traceIf rubyProject "Discovered Ruby project (${ l.concatStringsSep ", " projectTypeInfo }) at: ${ tree.relPath }" rubyProject
+          # if rubyProject
+          if lib.traceIf rubyProject "Discovered Ruby project (${ l.concatStringsSep ", " projectTypeInfo }) at: ${ tree.relPath }" rubyProject
           then
             [
               (dlib.construct.discoveredProject {
