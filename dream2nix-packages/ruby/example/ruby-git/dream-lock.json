@@ -1,8 +1,8 @@
 {
   "_generic": {
     "defaultPackage": "ruby-git",
-    "invalidationHash": "3dac35ec14230d3a6959d9ff31065defc0d5f8a2ea4889ffa721e1cf54d7d426",
-    "location": "/nix/store/7y0g2ag8b9jnfnwckrak6v20djq3iyrr-mgxbfc2723dp7rsj5gnkm1r4cizdc6fs-source/example/ruby-git",
+    "invalidationHash": "cb2a858495d0b3acfa8b4b6f9732d141fd89a2eec3db62fcecbbde46cceba45a",
+    "location": "/nix/store/mcrm3bzglvmgjgj2zd8vghrr5vyicsz4-1q9a2vvvyy331kr4rdrqq1zw1hl9wp0c-source/example/ruby-git",
     "packages": {
       "ruby-git": "0.0.0"
     },
