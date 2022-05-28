@@ -1,12 +1,11 @@
-{
-  nixpkgs = { ... }:
+{ ... }:
     let
       build = {
         lib,
         pkgs,
         stdenv,
         # dream2nix inputs
-        builders,
+        #  builders,
         externals,
         utils,
         makeBinaryWrapper,
@@ -18,7 +17,7 @@
             getCyclicDependencies, # name: version: -> [ {name=; version=; } ]
             getDependencies, # name: version: -> [ {name=; version=; } ]
             getSource, # name: version: -> store-path
-            buildPackageWithOtherBuilder, # { builder, name, version }: -> drv
+            ## buildPackageWithOtherBuilder, # { builder, name, version }: -> drv
             # Attributes
             subsystemAttrs, # attrset
             defaultPackageName, # string
@@ -234,5 +233,5 @@
             type = "impure";
 
             inherit build;
-          };
-}
+          }
+

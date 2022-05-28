@@ -74,12 +74,10 @@
         "pre-commit-hooks": "pre-commit-hooks"
       },
       "locked": {
-        "lastModified": 1653415441,
-        "narHash": "sha256-c0LKagn7XLl/V7kasttfQhWf4lylf9Lqk6Qe4+9/HAE=",
-        "owner": "yusdacra",
-        "repo": "dream2nix",
-        "rev": "cfeacc514e77a6c5d48332fde339ec380d83d0b4",
-        "type": "github"
+        "lastModified": 1653471501,
+        "narHash": "sha256-2WWoiokcOzl51VZRfeY+9DFLnHHgfpZz0r6A/mL4uHA=",
+        "type": "git",
+        "url": "file:///home/jaen/Projects/nix/dream2nix"
       },
       "original": {
         "owner": "yusdacra",

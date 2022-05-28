@@ -268,6 +268,8 @@ def to_source_data(spec)
       {
         "type" => "path",
         "path" => path.to_s,
+        "rootName" => nil,
+        "rootVersion" => nil,
       }
   end
 end

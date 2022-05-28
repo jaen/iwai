@@ -119,5 +119,5 @@
       #   [ project ];
     in {
       inherit discover;
-    };
+    }
 
