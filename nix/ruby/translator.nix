@@ -1,5 +1,4 @@
-{
-  bundler-impure = ({ dlib, lib, name, ... }: 
+({ dlib, lib, name, ... }: 
     let
       translateBin = {
         # dream2nix
@@ -38,5 +37,5 @@
 
         extraArgs = {};
       }
-  );
-}
+  )
+

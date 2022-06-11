@@ -1,8 +1,8 @@
 {
   "_generic": {
     "defaultPackage": "ruby-git",
-    "invalidationHash": "3dac35ec14230d3a6959d9ff31065defc0d5f8a2ea4889ffa721e1cf54d7d426",
-    "location": "/nix/store/7y0g2ag8b9jnfnwckrak6v20djq3iyrr-mgxbfc2723dp7rsj5gnkm1r4cizdc6fs-source/example/ruby-git",
+    "invalidationHash": "a60ccf7dd972fe2775edc5fd6c71cf6f709e958a271066eef63d2a29aadc0725",
+    "location": "ruby-git",
     "packages": {
       "ruby-git": "0.0.0"
     },
